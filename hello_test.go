@@ -2,16 +2,23 @@ package main
 
 import "testing"
 
-func TestHello( t *testing.T){
-    got := Hello()
-    want := "Hello,World :) "
+func TestHello(t *testing.T) {
+	t.Run("saying hello to people", func(t *testing.T) {
+		got := Hello("Chris")
+		want := "Hello, Chris"
+		assertCorrectMessage(t, got, want)
+	})
 
-    if got != want {
-        t.Errorf("got %q want %q", got , want)
-    }
+	t.Run("empty string defaults to 'world'", func(t *testing.T) {
+		got := Hello("")
+		want := "Hello, World"
+		assertCorrectMessage(t, got, want)
+	})
 }
 
-// Declaring a Variable X := var ;
-// t.Errorf we are calling the Errorf method on our t which will print out a message 
-// and fail the test. check : https://pkg.go.dev/fmt#hdr-Printing
-
+func assertCorrectMessage(t testing.TB, got, want string) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %q want %q", got, want)
+	}
+}
